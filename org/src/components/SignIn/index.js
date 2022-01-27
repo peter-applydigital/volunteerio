@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from "react-router-dom";
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import Button from '@mui/material/Button'
@@ -25,7 +26,10 @@ const validationSchema = yup.object({
     .required('Password is required'),
 })
 
+
 const WithMaterialUI = () => {
+  let navigate = useNavigate();
+  
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -33,7 +37,7 @@ const WithMaterialUI = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      navigate('/dashboard')
     },
   })
 

@@ -5,6 +5,8 @@ import Home from './pages/index.js';
 import Dashboard from './pages/dashboard.js';
 import SignUp from "./components/SignUp"; 
 import SignIn from "./components/SignIn"; 
+import CreateRole from "./components/CreateRole";
+import CreateJob from "./components/CreateJob";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signin" element={<SignIn />} />
+            <Route path="/createrole" element={<CreateRole />} />
+            <Route path="/createjob" element={<CreateJob />} />
           </Route>
         </Routes>
       </div>

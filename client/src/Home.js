@@ -1,10 +1,5 @@
 // a user's home screen after they register/login
 
-// TODO: show a list of upcoming commitments
-// TODO: simulate a browser notification that leads the user to an upcoming event
-
-// TODO: navbar with settings? (stretch goal)
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -15,8 +10,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import CardActions from "@mui/material/CardActions";
+import MuiCardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 
@@ -26,7 +20,13 @@ import LocationOn from "@mui/icons-material/LocationOn";
 import Notifications from "@mui/icons-material/Notifications";
 import Grid from "@mui/material/Grid";
 
-import { Card, HomeWrapper, InnerTabPanel, JobKeyDetails } from "./Home.styles";
+import {
+  Card,
+  PageWrapper,
+  InnerTabPanel,
+  JobKeyDetails,
+  CardActions,
+} from "./App.styles";
 
 function a11yProps(index) {
   return {
@@ -51,7 +51,7 @@ function TabPanel(props) {
   );
 }
 
-const JobCard = ({ job, hasActions }) => {
+const JobCard = ({ job, registeredActions, opportunityActions }) => {
   const {
     title,
     location,
@@ -60,63 +60,69 @@ const JobCard = ({ job, hasActions }) => {
     openings,
     reminders,
     description,
+    poster,
   } = job;
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
-        <CardMedia
-          component="img"
-          height="140"
-          image="/driver.png"
-          alt="green iguana"
-        />
-        <CardContent>
-          <Typography variant="h5" component="h2">
-            {title}
+      <CardMedia
+        component="img"
+        height="140"
+        image={poster}
+        alt="green iguana"
+      />
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          {title}
+        </Typography>
+        {openings && (
+          <Typography variant="subtitle1" color="text.secondary">
+            Available openings: {openings}
           </Typography>
-          {openings && (
-            <Typography variant="subtitle1" color="text.secondary">
-              Available openings: {openings}
-            </Typography>
-          )}
-          <JobKeyDetails>
-            <Typography variant="body1">
-              <LocationOn fontSize="small" />
-              {location}
-            </Typography>
-            <Typography variant="body1">
-              <AccessTime fontSize="small" />
-              {dateTime}
-            </Typography>
-            <Typography variant="body1">
-              <AccessibilityNew fontSize="small" />
-              {jobType}
-            </Typography>
-          </JobKeyDetails>
-          <Typography variant="body2" color="text.secondary" component="p">
-            {description}
-          </Typography>
-          <ul>
-            {reminders.map((reminder, index) => (
-              <li key={index}>
-                <Typography variant="body2" color="text.secondary">
-                  {reminder}
-                </Typography>
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-        {hasActions && (
-          <CardActions>
-            <Button size="small" variant="contained" color="secondary">
-              Register
-            </Button>
-            <Button size="small" color="secondary">
-              Learn More
-            </Button>
-          </CardActions>
         )}
-      </CardActionArea>
+        <JobKeyDetails>
+          <Typography variant="body1">
+            <LocationOn fontSize="small" />
+            {location}
+          </Typography>
+          <Typography variant="body1">
+            <AccessTime fontSize="small" />
+            {dateTime}
+          </Typography>
+          <Typography variant="body1">
+            <AccessibilityNew fontSize="small" />
+            {jobType}
+          </Typography>
+        </JobKeyDetails>
+        <Typography variant="body2" color="text.secondary" component="p">
+          {description}
+        </Typography>
+        <ul>
+          {reminders.map((reminder, index) => (
+            <li key={index}>
+              <Typography variant="body2" color="text.secondary">
+                {reminder}
+              </Typography>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      {opportunityActions && (
+        <CardActions>
+          <Button size="small" variant="contained" color="secondary">
+            Register
+          </Button>
+          <Button size="small" color="secondary">
+            Learn More
+          </Button>
+        </CardActions>
+      )}
+      {registeredActions && (
+        <MuiCardActions>
+          <Button size="small" color="error">
+            Cancel Event
+          </Button>
+        </MuiCardActions>
+      )}
     </Card>
   );
 };
@@ -125,20 +131,27 @@ const registeredList = [
   {
     title: "Meal Delivery",
     location: "Greater Toronto Area",
-    dateTime: "January 29, 2022 | 5:00pm-7:00pm",
+    dateTime: "January 29, 2022 | 5:00-8:00 PM",
     jobType: "Delivery Driver",
-    reminders: ["Please wear a mask."],
+    reminders: [
+      "Please arrive 15 minutes early to sign in and load your vehicle.",
+      "Masks and gloves required for this role.",
+    ],
     description:
-      "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+      "Pick up and deliver meals from New Toronto Street Food Bank to 25 Toronto area households.",
+    poster: "/driver.png",
   },
   {
-    title: "Meal Delivery",
-    location: "Greater Toronto Area",
-    dateTime: "January 29, 2022 | 5:00pm-7:00pm",
-    jobType: "Delivery Driver",
-    reminders: ["Please wear a mask."],
+    title: "Meal Packing",
+    location: "New Toronto Street Food Bank",
+    dateTime: "February 10, 2022 | 12:00-5:00 PM",
+    jobType: "Pantry Meal Packing",
+    reminders: [
+      "Masks and gloves are required for this role and will be provided.",
+    ],
     description:
-      "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+      "Package food hampers for mobile pantry distribution. You will be assigned a specific task when you arrive for this event.",
+    poster: "/packing.png",
   },
 ];
 
@@ -146,22 +159,24 @@ const opportunitiesList = [
   {
     title: "Meal Delivery",
     location: "Greater Toronto Area",
-    dateTime: "January 29, 2022 | 5:00pm-7:00pm",
+    dateTime: "anuary 30, 2022 | 5:00-8:00 PM",
     jobType: "Delivery Driver",
     openings: 3,
-    reminders: ["Please wear a mask."],
+    reminders: ["Masks and gloves required for this role."],
     description:
-      "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+      "Pick up and deliver meals from New Toronto Street Food Bank to 25 Toronto area households. ",
+    poster: "/driver.png",
   },
   {
-    title: "Meal Delivery",
-    location: "Greater Toronto Area",
+    title: "Meal Packing",
+    location: "New Toronto Street Food Bank",
     dateTime: "January 29, 2022 | 5:00pm-7:00pm",
-    jobType: "Delivery Driver",
-    openings: 3,
-    reminders: ["Please wear a mask."],
+    jobType: "Pantry Meal Packing",
+    openings: 5,
+    reminders: ["Masks and gloves required for this role will be provided."],
     description:
-      "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+      "Package food hampers for on-site and mobile pantry distribution.",
+    poster: "/packing.png",
   },
 ];
 
@@ -176,8 +191,8 @@ const Home = () => {
 
   const createNotification = () => {
     const notification = new window.Notification("New opportunity posted", {
-      body: "New Toronto Street Food Bank is looking for meal packers: February 10, 2022 | 12:00-5:00 PM.",
-      data: "/commitment",
+      body: "New Toronto Street Food Bank is looking for delivery drivers: January 30, 2022 | 5:00-8:00 PM",
+      data: "/register",
     });
     notification.onclick = function (e) {
       navigate(e.target.data);
@@ -191,7 +206,7 @@ const Home = () => {
   }, []);
 
   return (
-    <HomeWrapper>
+    <PageWrapper>
       <Box sx={{ width: "100%" }}>
         <AppBar position="static">
           <Grid container justifyContent="space-between">
@@ -220,16 +235,16 @@ const Home = () => {
         </AppBar>
         <TabPanel value={value} index={0}>
           {registeredList.map((job, index) => (
-            <JobCard key={index} job={job} />
+            <JobCard registeredActions={true} key={index} job={job} />
           ))}
         </TabPanel>
         <TabPanel value={value} index={1}>
           {opportunitiesList.map((job, index) => (
-            <JobCard hasActions={true} key={index} job={job} />
+            <JobCard opportunityActions={true} key={index} job={job} />
           ))}
         </TabPanel>
       </Box>
-    </HomeWrapper>
+    </PageWrapper>
   );
 };
 

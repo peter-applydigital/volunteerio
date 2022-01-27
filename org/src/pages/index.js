@@ -5,11 +5,12 @@ import Container from "@mui/material/Container"
 
 import Article from "../components/Article";
 import Hero from "../components/Hero";
+import volunteerImg from "../resources/images/volunteer.jpeg"
 
 function Home() {
   return (
     <div>
-      <Hero title={"Volunteer"} description={"Want to Volunteer or searching for Volunteers?"} />
+      <Hero title={"volunteer.io"} description={"Want to Volunteer or searching for Volunteers?"} background={volunteerImg} />
       <Container fixed>
         <Box my={5}>
           <Article title={"Searching for Volunteers?"} description={"Sign in if you're already a registered organisation or sign up."} />
