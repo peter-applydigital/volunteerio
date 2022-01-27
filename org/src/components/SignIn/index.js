@@ -15,21 +15,23 @@ const Container = ({ children }) => (
 
 const Field = ({ children, mt = 5 }) => <Box sx={{ mt }}>{children}</Box>
 
+const fieldIsRequired = "Field is required";
+
 const validationSchema = yup.object({
   email: yup
-    .string('Enter your email')
+    .string()
     .email('Enter a valid email')
-    .required('Email is required'),
+    .required(fieldIsRequired),
   password: yup
-    .string('Enter a password')
+    .string()
     .min(8, 'Password should be of minimum 8 characters length')
-    .required('Password is required'),
+    .required(fieldIsRequired),
 })
 
 
 const WithMaterialUI = () => {
   let navigate = useNavigate();
-  
+
   const formik = useFormik({
     initialValues: {
       email: '',
