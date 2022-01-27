@@ -109,7 +109,6 @@ function Dashboard() {
       <Container>
         <h2>Dashboard</h2>
         <div>
-          <Button>New Job</Button>
           <Button>Edit</Button>
           <Button>Delete</Button>
         </div>
