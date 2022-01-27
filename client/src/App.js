@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Registration from "./Registration";
 import Home from "./Home";
 import Commitment from "./Commitment";
+import Skills from './Skills'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/registration" element={<Registration />} />
           <Route path="/home" element={<Home />} />
           <Route path="/commitment" element={<Commitment />} />
+          <Route path="/skills" element={<Skills />} />
         </Routes>
       </div>
     </Router>
