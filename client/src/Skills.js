@@ -7,8 +7,6 @@ import {
     Checkbox,
     Grid,
     Typography,
-    RadioGroup,
-    Radio,
 } from '@mui/material'
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 import { Link } from 'react-router-dom'
@@ -17,7 +15,6 @@ import {
     StyledAvatar,
     StyledContainer,
     StyledPaper,
-    StyledRadioGroup,
 } from './Form.styles'
 
 const Skills = () => {
@@ -60,25 +57,6 @@ const Skills = () => {
                                 size="small"
                             />
                         </Grid>
-                        {/* <Grid item xs={12}>
-                            <Typography component="h5">
-                                Would you be willing to travel?
-                            </Typography>
-                            <StyledRadioGroup>
-                                <FormControlLabel
-                                    labelPlacement="top"
-                                    value="yes"
-                                    control={<Radio />}
-                                    label="Yes"
-                                />
-                                <FormControlLabel
-                                    labelPlacement="top"
-                                    value="no"
-                                    control={<Radio />}
-                                    label="No"
-                                />
-                            </StyledRadioGroup>
-                        </Grid> */}
                         <Grid item xs={12} sx={{ mb: 2 }}>
                             <Typography
                                 component="h3"
