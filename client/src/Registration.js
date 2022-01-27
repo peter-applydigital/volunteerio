@@ -44,16 +44,19 @@ const Registration = () => {
               hiddenLabel
             />
           </Grid>
-          <Grid item xs={12}>
-          <Typography align="left" gutterBottom> Confirm Your Skills</Typography>
-          <FormGroup>
-            <FormControlLabel control={<Checkbox />} label="Driving" />
-            <FormControlLabel control={<Checkbox />} label="Heavy Lifting" />
-            <FormControlLabel control={<Checkbox />} label="Food Preperation" />
-            <FormControlLabel control={<Checkbox />} label="Food Packaing" />
-          </FormGroup>
+          <Grid item xs={12} sx={{mb: 2}}>
+            <Typography align="left" gutterBottom> Confirm Your Skills</Typography>
+            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+              <FormGroup>
+                <FormControlLabel control={<Checkbox />} label="Driving" />
+                <FormControlLabel control={<Checkbox />} label="Heavy Lifting" />
+              </FormGroup>
+              <FormGroup>
+                <FormControlLabel control={<Checkbox />} label="Food Preparation" />
+                <FormControlLabel control={<Checkbox />} label="Food Packaging" />
+              </FormGroup>
+            </Box>
           </Grid>
-
       </Grid>
         <Button variant='contained' fullWidth> Sign Up </Button>
         </Paper>
