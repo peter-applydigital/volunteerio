@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Registration from './Registration'
 import Home from './Home'
-// import Commitment from './Commitment'
 import Skills from './Skills'
 import RegisterEvent from './RegisterEvent'
+import Hello from './Hello'
 import { ThemeProvider } from '@mui/material/styles'
 import { theme } from './muiTheme'
 
@@ -18,9 +18,9 @@ function App() {
                             element={<Registration />}
                         />
                         <Route path="/home" element={<Home />} />
-                        {/* <Route path="/commitment" element={Commitment />} /> */}
                         <Route path="/skills" element={<Skills />} />
                         <Route path="/register" element={<RegisterEvent />} />
+                        <Route path="/" element={<Hello />} />
                     </Routes>
                 </div>
             </Router>
