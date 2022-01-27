@@ -1,5 +1,6 @@
 // screen where the user registers
-import { Avatar,  Container, Button, TextField, Box, FormGroup,  FormControlLabel, Checkbox, Paper, Grid, Typography } from '@mui/material';
+import {  Button, TextField, FormControlLabel, Checkbox, Paper, Box, Grid, Typography } from '@mui/material';
+import {StyledFormWrapper, StyledAvatar, StyledContainer} from './Form.styles'
 import { Link } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 // TODO: add form fields that showcase the various skills/preferences/availability of a user
@@ -7,57 +8,61 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
 const Registration = () => {
   return( 
-    <Container component='main'  sx={{mt: 7}}>
-      <Paper elevation={1} sx={{padding: '20px'}}>
-        <Avatar sx={{ my: 2, mx: 'auto', bgcolor: 'tomato' }}>
-          <LockOutlinedIcon  />
-        </Avatar>
-        <Typography component='h2'>Sign Up to Volunteer</Typography>   
-        {/* form container  */}
-        <Grid container spacing={2} sx={{mt: 2, mb: 4,}}>
-          <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="First Name"
-                autoFocus
-                hiddenLabel
-              />
-            </Grid>
+    <StyledFormWrapper>
+      <StyledContainer component='main' maxWidth="sm">
+        <Paper elevation={1} sx={{padding: '20px', m: 'auto'}}>
+          <StyledAvatar sx={{ my: 2, mx: 'auto', width: 56, height: 56 }}>
+            <LockOutlinedIcon  />
+          </StyledAvatar>
+          <Typography align="center" component='h2'>Welcome!</Typography> 
+          <Typography component='h4'>Oprah Gail Winfrey is an American talk show host, television producer, actress, author, and philanthropist. She is best known for her talk show, The Oprah Winfrey Show</Typography>   
+          {/* form container  */}
+          <Grid container spacing={2} sx={{mt: 0, mb: 4,}}>
             <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label="Last Name"
-                autoFocus
-                hiddenLabel
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Email Address"
-                hiddenLabel
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Confirm Email Address"
-                hiddenLabel
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I agree to the terms and conditons of volunteer.io"
-              />
-            </Grid>
-        </Grid>
-       <Button component={Link} to="/skills" variant="contained" color="primary">
-        Sign Up 
-      </Button>
-      </Paper>
-    </Container>
-
+                <TextField
+                  fullWidth
+                  label="First Name"
+                  autoFocus
+                  hiddenLabel
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  label="Last Name"
+                  autoFocus
+                  hiddenLabel
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Email Address"
+                  hiddenLabel
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Confirm Email Address"
+                  hiddenLabel
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox color="primary" />}
+                  label="I agree to the terms and conditons"
+                />
+              </Grid>
+          </Grid>
+          <Box textAlign="center">
+              <Button sx={{my: 'auto'}} component={Link} to="/skills" variant="contained" color="primary">
+                Sign Up 
+            </Button>
+          </Box>
+        </Paper>
+      </StyledContainer>
+    </StyledFormWrapper>
   )
 };
 

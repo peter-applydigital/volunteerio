@@ -2,21 +2,24 @@
 import { Avatar,  Container, Button, TextField, Box, FormGroup, FormControlLabel, Checkbox, Paper, Grid, Typography } from '@mui/material';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import { Link } from 'react-router-dom';
+import {StyledFormWrapper, StyledAvatar, StyledContainer} from './Form.styles'
 
 // TODO: add form fields that showcase the various skills/preferences/availability of a user
 // TODO: send the user to the home screen after they register
 
 const Skills = () => {
   return( 
-    <Container component='main'  sx={{mt: 7}}>
+      <StyledFormWrapper>
+    <StyledContainer component='main'  maxWidth="sm">
       <Paper elevation={1} sx={{padding: '20px'}}>
-        <Avatar sx={{ my: 2, mx: 'auto', bgcolor: 'tomato' }}>
+        <StyledAvatar sx={{ my: 2, mx: 'auto', width: 56, height: 56 }}>
           <VolunteerActivismIcon />
-        </Avatar>
-        <Typography component='h2'>Tell Us About You</Typography>   
+        </StyledAvatar>
+        <Typography component='h2'>Tell Us About You</Typography>  
+        <Typography component='h4'>Oprah Gail Winfrey is an American talk show host, television producer, actress, author, and philanthropist. She is best known for her talk show, The Oprah Winfrey Show</Typography>    
         <Grid container spacing={2} sx={{mt: 2,}}>
         <Grid item sx={{textAlign: 'left'}} xs={12}>
-         <Typography component='h2'>Where Are You Coming From</Typography> 
+         <Typography component='h3'>Where Are You Coming From</Typography> 
         </Grid>
             <Grid item xs={6}>
                 <TextField
@@ -35,7 +38,7 @@ const Skills = () => {
                 />
             </Grid>
             <Grid item xs={12} sx={{mb: 2}}>
-              <Typography align="left" gutterBottom>What Are You Good At?</Typography>
+              <Typography component="h3" align="left" gutterBottom>What Are You Good At?</Typography>
               <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
                 <FormGroup>
                   <FormControlLabel control={<Checkbox />} label="Driving" />
@@ -48,10 +51,12 @@ const Skills = () => {
               </Box>
             </Grid>
         </Grid>
-         <Button component={Link} to="/home" variant="contained" color="primary">Volunteer!</Button>
+        <Box textAlign="center">
+            <Button component={Link} to="/home" variant="contained" color="primary">See Your Dashboard</Button>
+        </Box>
       </Paper>
-    </Container>
-
+    </StyledContainer>
+</StyledFormWrapper>
   )
 };
 
