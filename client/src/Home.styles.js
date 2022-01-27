@@ -2,9 +2,12 @@ import styled from "@emotion/styled";
 import MuiCard from "@mui/material/Card";
 
 export const HomeWrapper = styled.section`
-  background-color: #eee;
+  background-color: #f5f5f5;
   min-height: 100vh;
   text-align: left;
+  h1 {
+    padding: 0.25rem 0.5rem;
+  }
 `;
 
 export const InnerTabPanel = styled.div`
