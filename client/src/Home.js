@@ -16,6 +16,8 @@ import Box from "@mui/material/Box";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
+import CardActions from "@mui/material/CardActions";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 
 import AccessTime from "@mui/icons-material/AccessTime";
@@ -49,7 +51,7 @@ function TabPanel(props) {
   );
 }
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, hasActions }) => {
   const {
     title,
     location,
@@ -104,12 +106,43 @@ const JobCard = ({ job }) => {
             ))}
           </ul>
         </CardContent>
+        {hasActions && (
+          <CardActions>
+            <Button size="small" variant="contained" color="secondary">
+              Register
+            </Button>
+            <Button size="small" color="secondary">
+              Learn More
+            </Button>
+          </CardActions>
+        )}
       </CardActionArea>
     </Card>
   );
 };
 
-const jobList = [
+const registeredList = [
+  {
+    title: "Meal Delivery",
+    location: "Greater Toronto Area",
+    dateTime: "January 29, 2022 | 5:00pm-7:00pm",
+    jobType: "Delivery Driver",
+    reminders: ["Please wear a mask."],
+    description:
+      "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+  },
+  {
+    title: "Meal Delivery",
+    location: "Greater Toronto Area",
+    dateTime: "January 29, 2022 | 5:00pm-7:00pm",
+    jobType: "Delivery Driver",
+    reminders: ["Please wear a mask."],
+    description:
+      "Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica",
+  },
+];
+
+const opportunitiesList = [
   {
     title: "Meal Delivery",
     location: "Greater Toronto Area",
@@ -186,12 +219,14 @@ const Home = () => {
           </Tabs>
         </AppBar>
         <TabPanel value={value} index={0}>
-          {jobList.map((job, index) => (
+          {registeredList.map((job, index) => (
             <JobCard key={index} job={job} />
           ))}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          {opportunitiesList.map((job, index) => (
+            <JobCard hasActions={true} key={index} job={job} />
+          ))}
         </TabPanel>
       </Box>
     </HomeWrapper>
