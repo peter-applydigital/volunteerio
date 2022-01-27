@@ -8,11 +8,6 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header className="App-header">
-          <Link to="/registration">Registration</Link>
-          <Link to="/home">Home</Link>
-          <Link to="/commitment">Commitment</Link>
-        </header>
         <Routes>
           <Route path="/registration" element={<Registration />} />
           <Route path="/home" element={<Home />} />
