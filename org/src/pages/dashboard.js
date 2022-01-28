@@ -8,11 +8,13 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Chip from "@mui/material/Chip"
 
+import data from '../data.js'
+
 const columns = [
-  { field: 'date', headerName: 'Date', minWidth: 100 },
-  { field: 'role', headerName: 'Role', minWidth: 100 },
-  { field: 'description', headerName: 'Description', minWidth: 190, sortable: false },
-  { field: 'tag', headerName: 'Tags' },
+  { field: 'dateTime', headerName: 'Date & Time', minWidth: 140 },
+  { field: 'role', headerName: 'Role', maxWidth: 80 },
+  { field: 'location', headerName: 'Location', minWidth: 160, sortable: false },
+  { field: 'tags', headerName: 'Tags', minWidth: 140 },
   {
     field: 'confirmed',
     headerName: 'Confirmed',
@@ -23,16 +25,17 @@ const columns = [
   {
     field: 'status',
     headerName: 'Status',
+    maxWidth: 80,
     renderCell: getStatusChip
   },
 ]
 
 function getConfirmationStatus(params) {
-  return `${params.row.confirmed || '0'} / ${params.row.requested || '0'}`
+  return `${params.row.confirmed || '0'} / ${params.row.quantity || '0'}`
 }
 
 function getStatusChip(params) {
-  if (params.row.confirmed >= params.row.requested) {
+  if (params.row.confirmed >= params.row.quantity) {
     return <Chip label={"Full"} color="success" variant="outlined" size="small" />
   } else {
     return <Chip label={"Open"} color="warning" variant="outlined" size="small" />
@@ -40,26 +43,7 @@ function getStatusChip(params) {
 }
 
 function Dashboard() {
-  var [items] = useState([
-    {
-      id: 1,
-      role: 'Driver',
-      description: 'Lunch drive',
-      tag: 'event',
-      requested: 2,
-      confirmed: 1,
-      date: '02/13/2022',
-    },
-    {
-      id: 2,
-      role: 'Packer',
-      description: 'Lunch drive',
-      tag: 'event',
-      requested: 2,
-      confirmed: 2,
-      date: '02/13/2022',
-    },
-  ])
+  var [items] = useState(data)
 
   return (
     <div>
@@ -70,14 +54,13 @@ function Dashboard() {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, justifyContent: 'flex-start' }}
+              sx={{ flexGrow: 1, textAlign: "left" }}
             >
               Foodbank Toronto
             </Typography>
 
             <Box
               sx={{
-                flexGrow: 0,
                 display: 'flex',
                 justifyContent: 'space-between',
               }}

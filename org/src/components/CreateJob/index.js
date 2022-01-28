@@ -1,125 +1,215 @@
 import React from 'react'
+import dayjs from 'dayjs'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box'
-import FormControl from '@mui/material/FormControl'
-import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
-import FormHelperText from '@mui/material/FormHelperText'
+import {
+  Button,
+  TextField,
+  Typography,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+  Grid,
+} from '@mui/material'
+import WorkIcon from '@mui/icons-material/Work'
 
-const Container = ({ children }) => (
-  <Box width="90%" maxWidth="500px" mx="auto" my={10}>
-    {children}
-  </Box>
-)
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DateTimePicker from '@mui/lab/DateTimePicker'
 
-const Field = ({ children, mt = 5 }) => <Box sx={{ mt }}>{children}</Box>
+import {
+  StyledFormWrapper,
+  StyledContainer,
+  StyledPaper,
+  StyledAvatar,
+} from '../../Form.styles'
+
+import { jobs, roles } from '../../data'
 
 const fieldIsRequired = 'Field is required'
 
 const validationSchema = yup.object({
-  name: yup.string().required(fieldIsRequired),
-  description: yup.string().required(fieldIsRequired),
   role: yup.string().required(fieldIsRequired),
+  quantity: yup
+    .number()
+    .min(1, 'There has to be at least one position')
+    .required(fieldIsRequired),
+  tags: yup.string(),
+  location: yup.string().required(fieldIsRequired),
+  duration: yup
+    .number()
+    .min(1, 'Job has to be at least 1 hour')
+    .required(fieldIsRequired),
+  dateTime: yup.date(),
 })
 
 const WithMaterialUI = () => {
   let navigate = useNavigate()
 
-  const [role, setRole] = React.useState('')
-
-  const handleChange = (event) => {
-    setRole(event.target.value)
-  }
+  const [date, setDate] = React.useState('')
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      description: '',
-      role,
+      role: '',
+      quantity: '',
+      tags: '',
+      location: '',
+      duration: '',
+      dateTime: new Date(),
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      jobs.push({
+        ...values,
+        dateTime: dayjs(values.dateTime).format('MM/DD/YYYY HH:mm'),
+        id: Math.floor(Math.random() * 1000),
+      })
       navigate('/dashboard')
     },
   })
 
   return (
-    <Container>
-      <Typography variant="h2">Create Job</Typography>
-      <form onSubmit={formik.handleSubmit}>
-        <Field>
-          <TextField
-            fullWidth
-            id="name"
-            name="name"
-            label="Name"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            error={formik.touched.name && Boolean(formik.errors.name)}
-            helperText={formik.touched.name && formik.errors.name}
-          />
-        </Field>
-        <Field>
-          <TextField
-            fullWidth
-            id="description"
-            name="description"
-            label="Description"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            error={
-              formik.touched.description && Boolean(formik.errors.description)
-            }
-            helperText={formik.touched.description && formik.errors.description}
-          />
-        </Field>
-        <Field>
-          <FormControl sx={{ width: '100%' }}>
-            <InputLabel id="role-label">Role</InputLabel>
-            <Select
-              fullWidth
-              id="role"
-              name="role"
-              label="Role"
-              labelId="role-label"
-              value={role}
-              onChange={handleChange}
-              error={formik.touched.role && Boolean(formik.errors.role)}
-            >
-              <MenuItem value="general">General</MenuItem>
-              <MenuItem value="driver">Driver</MenuItem>
-              <MenuItem value="server">Server</MenuItem>
-            </Select>
-            {formik.touched.role && Boolean(formik.errors.role) && (
-              <FormHelperText sx={{ color: "error" }}>
-                {formik.errors.role}
-              </FormHelperText>
-            )}
-          </FormControl>
-        </Field>
-        <Field>
-          <Button color="primary" variant="contained" fullWidth type="submit">
-            Submit
-          </Button>
-        </Field>
-        <Field mt={3}>
-          <Button
-            href="/dashboard"
-            color="primary"
-            variant="outlined"
-            fullWidth
-          >
-            Cancel
-          </Button>
-        </Field>
-      </form>
-    </Container>
+    <StyledFormWrapper>
+      <StyledContainer component="main" maxWidth="sm">
+        <StyledPaper elevation={4}>
+          <StyledAvatar>
+            <WorkIcon fontSize="large" />
+          </StyledAvatar>
+          <Typography align="center" component="h2">
+            Create Job
+          </Typography>
+          <form onSubmit={formik.handleSubmit}>
+            <Grid container spacing={2} sx={{ mt: 0, mb: 4 }}>
+              <Grid item xs={6}>
+                <FormControl sx={{ width: '100%' }}>
+                  <InputLabel id="role-label">Role</InputLabel>
+                  <Select
+                    fullWidth
+                    id="role"
+                    name="role"
+                    label="Role"
+                    labelId="role-label"
+                    value={formik.values.role}
+                    onChange={formik.handleChange}
+                    error={formik.touched.role && Boolean(formik.errors.role)}
+                  >
+                    {roles.map(({ name }) => (
+                      <MenuItem key={name} value={name}>
+                        {name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {formik.touched.role && Boolean(formik.errors.role) && (
+                    <FormHelperText sx={{ color: 'red' }}>
+                      {formik.errors.role}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  id="quantity"
+                  name="quantity"
+                  label="Quantity"
+                  type="number"
+                  value={formik.values.quantity}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.quantity && Boolean(formik.errors.quantity)
+                  }
+                  helperText={formik.touched.quantity && formik.errors.quantity}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  id="tags"
+                  name="tags"
+                  label="Tags"
+                  value={formik.values.tags}
+                  onChange={formik.handleChange}
+                  error={formik.touched.tags && Boolean(formik.errors.tags)}
+                  helperText={formik.touched.tags && formik.errors.tags}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  id="location"
+                  name="location"
+                  label="Location (address)"
+                  value={formik.values.location}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.location && Boolean(formik.errors.location)
+                  }
+                  helperText={formik.touched.location && formik.errors.location}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  fullWidth
+                  id="duration"
+                  name="duration"
+                  type="number"
+                  label="Duration (hours)"
+                  value={formik.values.duration}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.duration && Boolean(formik.errors.duration)
+                  }
+                  helperText={formik.touched.duration && formik.errors.duration}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DateTimePicker
+                    id="dateTime"
+                    name="dateTime"
+                    label="Pick a date and time"
+                    value={date}
+                    onChange={(e) => {
+                      setDate(e)
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+                {formik.touched.dateTime && Boolean(formik.errors.dateTime) && (
+                  <FormHelperText sx={{ color: 'error' }}>
+                    {formik.errors.dateTime}
+                  </FormHelperText>
+                )}
+              </Grid>
+              <Grid item xs={12}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  fullWidth
+                  type="submit"
+                >
+                  Submit
+                </Button>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Button
+                  href="/dashboard"
+                  color="primary"
+                  variant="outlined"
+                  fullWidth
+                >
+                  Cancel
+                </Button>
+              </Grid>
+            </Grid>
+          </form>
+        </StyledPaper>
+      </StyledContainer>
+    </StyledFormWrapper>
   )
 }
 
