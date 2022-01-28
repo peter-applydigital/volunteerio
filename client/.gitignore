@@ -18,6 +18,7 @@ dist/
 
 # Package files
 *.jar
+*.prettierrc
 
 # Maven
 target/
@@ -47,4 +48,5 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
+
 
